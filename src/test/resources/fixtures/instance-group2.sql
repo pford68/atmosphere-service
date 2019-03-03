@@ -1,0 +1,1 @@
+insert into instance(id, name, region, state, status, created_date, key_pair, monitoring_enabled, type, user_group, provider) values (10, "myGreatInstance", 1, 1, 1, UNIX_TIMESTAMP(now()) * 1000, 1, 0, 1, 2, 1);

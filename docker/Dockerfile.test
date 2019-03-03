@@ -1,0 +1,8 @@
+FROM pford68/atm_svc:1
+MAINTAINER philipford@masterpeaceltd.com
+EXPOSE 8080
+WORKDIR /usr/build/atm
+RUN export SPRING_DATASOURCE_URL=atmosphere-test.crnykjtb6vtb.us-west-2.rds.amazonaws.com:3306 && \
+     export SPRING_DATASOURCE_USERNAME=atmuser && \
+     export SPRING_DATASOURCE_PASSWORD=qazwsxedc
+CMD java -jar atmosphere-service.jar

@@ -1,0 +1,6 @@
+FROM java:8
+MAINTAINER philipford@masterpeaceltd.com
+EXPOSE 8080
+WORKDIR /usr/build/atm
+CMD java -jar atmosphere-service.jar
+ADD build/atmosphere-service.jar atmosphere-service.jar

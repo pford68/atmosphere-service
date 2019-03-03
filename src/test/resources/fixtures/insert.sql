@@ -1,0 +1,2 @@
+insert into instance(id, name, region, state, status, created_date, key_pair, monitoring_enabled, type, user_group, provider) values (10, "myGreatInstance", 1, 1, 1, UNIX_TIMESTAMP(now()) * 1000, 1, 0, 1, 1, 1);
+insert into volume(id, name, type, size, region, state, alarm_status, created_date, monitoring_enabled, encrypted, user_group) values(4, "My Worst Volume", 1, 16, 1, 1, 1, UNIX_TIMESTAMP(now()) * 1000, 1, 1, 1);
