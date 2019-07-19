@@ -3,7 +3,8 @@ package com.masterpeace.atmosphere.security;
 
 import com.masterpeace.atmosphere.model.User;
 import com.masterpeace.atmosphere.services.UserService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Qualifier("atmosphereUserDetailsService")
 public class AtmosphereUserDetailsService implements UserDetailsService {
 
-    private static final Logger LOGGER = Logger.getLogger(AtmosphereUserDetailsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AtmosphereUserDetailsService.class);
 
     private final UserService userLookupService;
 

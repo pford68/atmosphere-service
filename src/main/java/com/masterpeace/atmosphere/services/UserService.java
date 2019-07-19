@@ -44,7 +44,7 @@ public class UserService {
      * @throws Exception
      */
     public User getUserById(long userId) throws Exception {
-        return this.userRepository.findOne(userId);
+        return this.userRepository.getOne(userId);
     }
 
 
@@ -68,7 +68,7 @@ public class UserService {
      * @throws Exception
      */
     public Iterable<UserGroup> getGroupsByUserId(long userId) throws Exception {
-        User user = this.userRepository.findOne(userId);
+        User user = this.userRepository.getOne(userId);
         return user.getUserGroups();
     }
 
@@ -80,7 +80,7 @@ public class UserService {
      * @throws Exception
      */
     public Iterable<User> getUsersByGroupId(long groupId) throws Exception {
-        UserGroup group = this.userGroupRepository.findOne(groupId);
+        UserGroup group = this.userGroupRepository.getOne(groupId);
         return group.getUsers();
     }
 
@@ -149,24 +149,25 @@ public class UserService {
 
 
     public Notification getNotificationById(long noteId) throws Exception {
-        return this.notificationRepository.findOne(noteId);
+        return this.notificationRepository.getOne(noteId);
     }
 
 
     @Transactional
     public Iterable<Notification> markMessagesAsRead(List<Long> ids) throws Exception {
-        Iterable<Notification> notifications = this.notificationRepository.findAll(ids);
+        Iterable<Notification> notifications = this.notificationRepository.findAllById(ids);
         List<Notification> _notifications = new ArrayList<Notification>();
         for (Notification n : notifications){
             _notifications.add(new Notification.NotificationBuilder(n).setOpened(true).build());
         }
-        return this.notificationRepository.save(_notifications);
+        return this.notificationRepository.saveAll(_notifications);
     }
 
 
     @Transactional
     public Long deleteMessage(long noteId) throws Exception {
-        this.notificationRepository.delete(noteId);
+        Notification note = this.notificationRepository.getOne(noteId);
+        this.notificationRepository.delete(note);
         return noteId;
     }
 }

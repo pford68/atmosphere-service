@@ -42,7 +42,7 @@ insert into region(id, value) values(4, "us-east");
 
 
 -- Key pairs
-insert into key_pair (id, value, provider) values(1, "AngelEyes-Oregon", 1);
+insert into key_pair (id, value, provider_id) values(1, "AngelEyes-Oregon", 1);
 
 
 -- Groups
@@ -51,9 +51,9 @@ insert into user_group(id, name, created_date) values(2, "atmosphere-dev", UNIX_
 
 
 -- Security groups:  must be added after User Groups, but before Users.
-insert into security_group(id, value, user_group) values(1, "default", 1);
-insert into security_group(id, value, user_group, permissions) values(2, "administrators", 1, "SELECT,INSERT,UPDATE,DELETE");
-insert into security_group(id, value, user_group, permissions) values(3, "admin", 2, "SELECT,INSERT,UPDATE,DELETE");
+insert into security_group(id, value, user_group_id) values(1, "default", 1);
+insert into security_group(id, value, user_group_id, permissions) values(2, "administrators", 1, "SELECT,INSERT,UPDATE,DELETE");
+insert into security_group(id, value, user_group_id, permissions) values(3, "admin", 2, "SELECT,INSERT,UPDATE,DELETE");
 
 
 -- Users
@@ -63,12 +63,12 @@ insert into user(id, first, last, email, password) values(3, "John", "Smith", "j
 
 
 -- User Security Groups
-insert into user_security_groups(user, security_groups) values(1, 1);
-insert into user_security_groups(user, security_groups) values(1, 2);
-insert into user_security_groups(user, security_groups) values(1, 3);
-insert into user_security_groups(user, security_groups) values(2, 1);
-insert into user_security_groups(user, security_groups) values(2, 2);
-insert into user_security_groups(user, security_groups) values(3, 1);
+insert into user_security_groups(user_id, security_groups_id) values(1, 1);
+insert into user_security_groups(user_id, security_groups_id) values(1, 2);
+insert into user_security_groups(user_id, security_groups_id) values(1, 3);
+insert into user_security_groups(user_id, security_groups_id) values(2, 1);
+insert into user_security_groups(user_id, security_groups_id) values(2, 2);
+insert into user_security_groups(user_id, security_groups_id) values(3, 1);
 
 
 
@@ -104,43 +104,43 @@ insert into ip_address(id, value, exposed) values(3, "52.11.145.194", 1);
 
 
 -- Instances
-insert into instance(id, name, region, state, status, created_date, key_pair, monitoring_enabled, type, user_group, provider) values (1, "dev", 1, 1, 1, UNIX_TIMESTAMP('2015-03-01 12:15:53') * 1000, 1, 0, 1, 1, 1);
-insert into instance(id, name, region, state, status, created_date, key_pair, monitoring_enabled, type, user_group, provider) values (2, "production", 1, 1, 2, UNIX_TIMESTAMP('2015-03-02 13:56:12') * 1000, 1, 1, 1, 1, 1);
-insert into instance(id, name, region, state, status, created_date, key_pair, monitoring_enabled, type, user_group, provider) values (3, "secondary_dev", 1, 1, 1, UNIX_TIMESTAMP('2015-03-05 15:01:12') * 1000, 1, 0, 1, 1, 2);
+insert into instance(id, name, region_id, state_id, status_id, created_date, key_pair_id, monitoring_enabled, type_id, user_group_id, provider_id) values (1, "dev", 1, 1, 1, UNIX_TIMESTAMP('2015-03-01 12:15:53') * 1000, 1, 0, 1, 1, 1);
+insert into instance(id, name, region_id, state_id, status_id, created_date, key_pair_id, monitoring_enabled, type_id, user_group_id, provider_id) values (2, "production", 1, 1, 2, UNIX_TIMESTAMP('2015-03-02 13:56:12') * 1000, 1, 1, 1, 1, 1);
+insert into instance(id, name, region_id, state_id, status_id, created_date, key_pair_id, monitoring_enabled, type_id, user_group_id, provider_id) values (3, "secondary_dev", 1, 1, 1, UNIX_TIMESTAMP('2015-03-05 15:01:12') * 1000, 1, 0, 1, 1, 2);
 
 
 
 -- Instance Security Groups
-insert into instance_security_groups(instance, security_groups) values(1, 1);
-insert into instance_security_groups(instance, security_groups) values(1, 2);
-insert into instance_security_groups(instance, security_groups) values(2, 2);
-insert into instance_security_groups(instance, security_groups) values(3, 1);
-insert into instance_security_groups(instance, security_groups) values(3, 2);
+insert into instance_security_groups(instance_id, security_groups_id) values(1, 1);
+insert into instance_security_groups(instance_id, security_groups_id) values(1, 2);
+insert into instance_security_groups(instance_id, security_groups_id) values(2, 2);
+insert into instance_security_groups(instance_id, security_groups_id) values(3, 1);
+insert into instance_security_groups(instance_id, security_groups_id) values(3, 2);
 
 
 
 -- Volumes
-insert into volume(id, name, type, size, region, state, alarm_status, created_date, monitoring_enabled, encrypted, user_group, snapshot) values(1, "My Great Volume", 1, 8, 1, 1, 1, UNIX_TIMESTAMP('2015-03-01 15:02:31') * 1000, 0, 0, 1, 1);
-insert into volume(id, name, type, size, region, state, alarm_status, created_date, monitoring_enabled, encrypted, user_group, snapshot, instance) values(2, "My Great Volume II", 1, 16, 1, 1, 1, UNIX_TIMESTAMP('2015-03-02 08:19:02') * 1000, 0, 1, 1, 2, 2);
-insert into volume(id, name, type, size, region, state, alarm_status, created_date, monitoring_enabled, encrypted, user_group, snapshot) values(3, "My Next Greatest Volume", 1, 16, 1, 1, 1, UNIX_TIMESTAMP('2015-03-03 08:00:05') * 1000, 1, 1, 1, 3);
+insert into volume(id, name, type_id, size, region_id, state_id, alarm_status_id, created_date, monitoring_enabled, encrypted, user_group_id, snapshot_id) values(1, "My Great Volume", 1, 8, 1, 1, 1, UNIX_TIMESTAMP('2015-03-01 15:02:31') * 1000, 0, 0, 1, 1);
+insert into volume(id, name, type_id, size, region_id, state_id, alarm_status_id, created_date, monitoring_enabled, encrypted, user_group_id, snapshot_id, instance_id) values(2, "My Great Volume II", 1, 16, 1, 1, 1, UNIX_TIMESTAMP('2015-03-02 08:19:02') * 1000, 0, 1, 1, 2, 2);
+insert into volume(id, name, type_id, size, region_id, state_id, alarm_status_id, created_date, monitoring_enabled, encrypted, user_group_id, snapshot_id) values(3, "My Next Greatest Volume", 1, 16, 1, 1, 1, UNIX_TIMESTAMP('2015-03-03 08:00:05') * 1000, 1, 1, 1, 3);
 
 
 
 -- Instance Volumes
-insert into instance_volumes(instance, volumes) values(2, 2);
+insert into instance_volumes(instance_id, volumes_id) values(2, 2);
 
 
 -- Instance DNS
-insert into instance_dns(instance, dns) values(1, 1);
-insert into instance_dns(instance, dns) values(2, 2);
-insert into instance_dns(instance, dns) values(3, 3);
+insert into instance_dns(instance_id, dns_id) values(1, 1);
+insert into instance_dns(instance_id, dns_id) values(2, 2);
+insert into instance_dns(instance_id, dns_id) values(3, 3);
 
 
 
 -- Instance IP
-insert into instance_ip(instance, ip) values(1, 1);
-insert into instance_ip(instance, ip) values(2, 2);
-insert into instance_ip(instance, ip) values(3, 3);
+insert into instance_ip(instance_id, ip_id) values(1, 1);
+insert into instance_ip(instance_id, ip_id) values(2, 2);
+insert into instance_ip(instance_id, ip_id) values(3, 3);
 
 
 
@@ -152,9 +152,9 @@ insert into image_type(id, value, description) values(3, "Red Hat", "This is not
 
 
 -- Images
-insert into image(id, name, source, owner, type, exposed, state, platform, root_device, architecture, description, user_group) values(1, "kioko", "masterpeace", "", 2, 1, 1, "Ubuntu", "instance-store", "x86_64", "This is named after my cat.", 1);
-insert into image(id, name, source, owner, type, exposed, state, platform, root_device, architecture, description, user_group) values(2, "atm_svc", "masterpeace", "", 3, 1, 1, "RedHat", "instance-store", "x86_64", "Image of atm services.", 1);
-insert into image(id, name, source, owner, type, exposed, state, platform, root_device, architecture, description, user_group) values(3, "kioko 2", "masterpeace", "", 2, 1, 1, "Ubuntu", "instance-store", "x86_64", "This is named after my cat.", 1);
+insert into image(id, name, source, owner, type_id, exposed, state_id, platform, root_device, architecture, description, user_group_id) values(1, "kioko", "masterpeace", "", 2, 1, 1, "Ubuntu", "instance-store", "x86_64", "This is named after my cat.", 1);
+insert into image(id, name, source, owner, type_id, exposed, state_id, platform, root_device, architecture, description, user_group_id) values(2, "atm_svc", "masterpeace", "", 3, 1, 1, "RedHat", "instance-store", "x86_64", "Image of atm services.", 1);
+insert into image(id, name, source, owner, type_id, exposed, state_id, platform, root_device, architecture, description, user_group_id) values(3, "kioko 2", "masterpeace", "", 2, 1, 1, "Ubuntu", "instance-store", "x86_64", "This is named after my cat.", 1);
 
 
 -- Limit Types
@@ -166,29 +166,29 @@ insert into usage_limit_type(id, name, family, size) values(5, "Auto Scaling Gro
 
 
 -- Limits
-insert into usage_limit(id, type, size, user) values(1, 1, 20, 1);
-insert into usage_limit(id, type, size, user) values(2, 2, 20, 1);
-insert into usage_limit(id, type, size, user) values(3, 3, 20, 1);
-insert into usage_limit(id, type, size, user) values(4, 4, 50, 1);
-insert into usage_limit(id, type, size, user) values(5, 5, 20, 1);
+insert into usage_limit(id, type_id, size, user_id) values(1, 1, 20, 1);
+insert into usage_limit(id, type_id, size, user_id) values(2, 2, 20, 1);
+insert into usage_limit(id, type_id, size, user_id) values(3, 3, 20, 1);
+insert into usage_limit(id, type_id, size, user_id) values(4, 4, 50, 1);
+insert into usage_limit(id, type_id, size, user_id) values(5, 5, 20, 1);
 
-insert into usage_limit(id, type, size, user) values(6, 1, 20, 2);
-insert into usage_limit(id, type, size, user) values(7, 2, 20, 2);
-insert into usage_limit(id, type, size, user) values(8, 3, 20, 2);
-insert into usage_limit(id, type, size, user) values(9, 4, 50, 2);
-insert into usage_limit(id, type, size, user) values(10, 5, 20, 2);
+insert into usage_limit(id, type_id, size, user_id) values(6, 1, 20, 2);
+insert into usage_limit(id, type_id, size, user_id) values(7, 2, 20, 2);
+insert into usage_limit(id, type_id, size, user_id) values(8, 3, 20, 2);
+insert into usage_limit(id, type_id, size, user_id) values(9, 4, 50, 2);
+insert into usage_limit(id, type_id, size, user_id) values(10, 5, 20, 2);
 
-insert into usage_limit(id, type, size, user) values(11, 1, 20, 3);
-insert into usage_limit(id, type, size, user) values(12, 2, 20, 3);
-insert into usage_limit(id, type, size, user) values(13, 3, 20, 3);
-insert into usage_limit(id, type, size, user) values(14, 4, 50, 3);
-insert into usage_limit(id, type, size, user) values(15, 5, 20, 3);
+insert into usage_limit(id, type_id, size, user_id) values(11, 1, 20, 3);
+insert into usage_limit(id, type_id, size, user_id) values(12, 2, 20, 3);
+insert into usage_limit(id, type_id, size, user_id) values(13, 3, 20, 3);
+insert into usage_limit(id, type_id, size, user_id) values(14, 4, 50, 3);
+insert into usage_limit(id, type_id, size, user_id) values(15, 5, 20, 3);
 
 
 
 -- Storage Options
-insert into storage_option(id, type, device, snapshot, volume_type, size, iops, delete_on_termination, encrypted) values(1, "root", "/dev/xvda", NULL, 1, 16, "24/3000", true, false);
-insert into storage_option(id, type, device, snapshot, volume_type, size, iops, delete_on_termination, encrypted) values(2, "root", "/dev/xvda", NULL, 2, 8, "N/A", true, false);
+insert into storage_option(id, type, device, snapshot_id, volume_type_id, size, iops, delete_on_termination, encrypted) values(1, "root", "/dev/xvda", NULL, 1, 16, "24/3000", true, false);
+insert into storage_option(id, type, device, snapshot_id, volume_type_id, size, iops, delete_on_termination, encrypted) values(2, "root", "/dev/xvda", NULL, 2, 8, "N/A", true, false);
 
 
 -- Instance Configurations
@@ -203,9 +203,9 @@ insert into instance_configuration_option(id, name, default_value) values(8, "mo
 
 
 -- Instance Options
-insert into instance_option(id, image, instance) values(1, 2, 1);
-insert into instance_option(id, image, instance) values(2, 2, 2);
-insert into instance_option(id, image, instance) values(3, 3, 1);
+insert into instance_option(id, image_id, instance_id) values(1, 2, 1);
+insert into instance_option(id, image_id, instance_id) values(2, 2, 2);
+insert into instance_option(id, image_id, instance_id) values(3, 3, 1);
 
 
 

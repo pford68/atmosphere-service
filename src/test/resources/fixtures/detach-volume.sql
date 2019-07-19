@@ -1,3 +1,3 @@
-insert into instance(id, name, region, state, status, created_date, key_pair, monitoring_enabled, type, user_group, provider) values (10, "myGreatInstance", 1, 1, 1, UNIX_TIMESTAMP(now()) * 1000, 1, 0, 1, 1, 1);
-insert into volume(id, name, type, size, region, state, alarm_status, created_date, monitoring_enabled, encrypted, user_group, instance) values(4, "My Worst Volume", 1, 16, 1, 1, 1, UNIX_TIMESTAMP(now()) * 1000, 1, 1, 1, 10);
-insert into instance_volumes(instance, volumes) values(10, 4);
+insert into instance(id, name, region_id, state_id, status_id, created_date, key_pair_id, monitoring_enabled, type_id, user_group_id, provider_id) values (10, "myGreatInstance", 1, 1, 1, UNIX_TIMESTAMP(now()) * 1000, 1, 0, 1, 1, 1);
+insert into volume(id, name, type_id, size, region_id, state_id, alarm_status_id, created_date, monitoring_enabled, encrypted, user_group_id, instance_id) values(4, "My Worst Volume", 1, 16, 1, 1, 1, UNIX_TIMESTAMP(now()) * 1000, 1, 1, 1, 10);
+insert into instance_volumes(instance_id, volumes_id) values(10, 4);

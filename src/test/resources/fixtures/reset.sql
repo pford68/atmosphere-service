@@ -4,12 +4,12 @@ delete from instance_volumes;
 -- Reset volumes
 delete from volume where id > 3;
 alter table volume AUTO_INCREMENT = 4;
-update volume set state = 1 where id = 1;
+update volume set state_id = 1 where id = 1;
 
 -- Reset instances
-delete from instance_dns where dns > 3;
-delete from instance_ip where ip > 3;
-delete from instance_security_groups where instance > 3;
+delete from instance_dns where dns_id > 3;
+delete from instance_ip where ip_id > 3;
+delete from instance_security_groups where instance_id > 3;
 delete from instance where id > 3;
 alter table instance AUTO_INCREMENT = 4;
 update instance set name = "dev" where id = 1;

@@ -5,7 +5,8 @@ import com.masterpeace.atmosphere.model.*;
 import com.masterpeace.atmosphere.services.InstanceService;
 import com.masterpeace.atmosphere.services.UserService;
 import com.masterpeace.atmosphere.services.VolumeService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,7 +29,7 @@ import java.util.Map;
 @Component
 public class ProtectedStatusAspect{
 
-    private static final Logger LOGGER = Logger.getLogger(ProtectedStatusAspect.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProtectedStatusAspect.class);
 
 
     @Value("${atmosphere.deletion.started}")
@@ -62,7 +63,8 @@ public class ProtectedStatusAspect{
 
     private boolean userInitiatedDelete(User user, Protectable protectable){
         if (protectable.getLastModifiedDate() == 0) return false;
-        List<AuditEvent> records = auditEventRepository.find(user.getEmail(), new Date(protectable.getLastModifiedDate()));
+        String dateString = new Date(protectable.getLastModifiedDate()).toString();
+        List<AuditEvent> records = auditEventRepository.find(user.getEmail(), null, dateString);
         Map<String, Object> data = null;
         for (AuditEvent record : records){
             data = record.getData();

@@ -2,7 +2,8 @@ package com.masterpeace.atmosphere.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.masterpeace.atmosphere.model.User;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.Authentication;
@@ -22,7 +23,7 @@ import java.io.PrintWriter;
 @Component
 public class RestSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
 
-    private static final Logger LOGGER = Logger.getLogger(RestSuccessHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestSuccessHandler.class);
 
     private final ObjectMapper mapper;
 

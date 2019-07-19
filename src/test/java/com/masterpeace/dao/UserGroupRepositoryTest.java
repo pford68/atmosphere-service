@@ -6,7 +6,8 @@ import com.masterpeace.atmosphere.model.UserGroup;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
@@ -17,7 +18,8 @@ import static org.junit.Assert.*;
  * Unit test for the UserGroupRepository bean
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringBootTest(classes = Application.class)
+@ActiveProfiles("test")
 public class UserGroupRepositoryTest {
 
     @Autowired

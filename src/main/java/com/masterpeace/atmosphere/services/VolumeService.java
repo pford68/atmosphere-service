@@ -8,7 +8,8 @@ import com.masterpeace.atmosphere.model.Instance;
 import com.masterpeace.atmosphere.model.Snapshot;
 import com.masterpeace.atmosphere.model.State;
 import com.masterpeace.atmosphere.model.Volume;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ import static com.masterpeace.atmosphere.model.Volume.VolumeBuilder;
 @Transactional(readOnly = true)
 public class VolumeService {
 
-    private static final Logger LOGGER = Logger.getLogger(VolumeService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VolumeService.class);
 
     private final VolumeRepository repository;
     private final InstanceRepository instanceRepository;
@@ -69,20 +70,20 @@ public class VolumeService {
 
 
     public Volume getById(long volumeId) {
-        return this.repository.findOne(volumeId);
+        return this.repository.getOne(volumeId);
     }
 
 
 
     public Iterable<Volume> getAll(Iterable<Long> ids){
-        return this.repository.findAll(ids);
+        return this.repository.findAllById(ids);
     }
 
 
 
     @Transactional
     public Iterable<Volume> save(List<Volume> volumes) {
-        Iterable<Volume> result = this.repository.save(volumes);
+        Iterable<Volume> result = this.repository.saveAll(volumes);
 
         for (Volume volume : result){
             entityManager.refresh(volume);
@@ -95,7 +96,7 @@ public class VolumeService {
     @Transactional
     public Volume updateState(Volume volume, int stateId) {
         Volume _volume = new VolumeBuilder(volume)
-                .setState(this.stateRepository.findOne(stateId))
+                .setState(this.stateRepository.getOne(stateId))
                 .build();
         return this.repository.save(_volume);
     }
@@ -104,9 +105,9 @@ public class VolumeService {
     @Transactional
     public Volume attach(Volume volume, long instanceId){
         long volumeId = volume.getId();
-        Instance instance = this.instanceRepository.findOne(instanceId);
-        State state = this.stateRepository.findOne(Volume.ATTACHED_STATE);
-        Volume _volume = new VolumeBuilder(this.repository.findOne(volumeId))
+        Instance instance = this.instanceRepository.getOne(instanceId);
+        State state = this.stateRepository.getOne(Volume.ATTACHED_STATE);
+        Volume _volume = new VolumeBuilder(this.repository.getOne(volumeId))
                 .setInstance(instance)
                 .setState(state)
                 .build();
@@ -115,20 +116,14 @@ public class VolumeService {
 
     @Transactional
     public Volume detach(long volumeId){
-        State state = this.stateRepository.findOne(Volume.DETACHED_STATE);
-        Volume _volume = new VolumeBuilder(this.repository.findOne(volumeId))
+        State state = this.stateRepository.getOne(Volume.DETACHED_STATE);
+        Volume _volume = new VolumeBuilder(this.repository.getOne(volumeId))
                 .setInstance(null)
                 .setState(state)
                 .build();
         return this.repository.save(_volume);
     }
 
-
-    @Transactional
-    public long delete(long volumeId) throws Exception {
-        this.repository.delete(volumeId);
-        return volumeId;
-    }
 
 
     @Transactional
