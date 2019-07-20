@@ -7,13 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -32,10 +31,10 @@ import static org.junit.Assert.*;
 /**
  * Integration Tests for NotificationService
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
-@IntegrationTest({"server.port=0"})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+@ActiveProfiles("test")
+@AutoConfigureMockMvc
 @Sql({"classpath:fixtures/reset-notifications.sql", "classpath:fixtures/insert-notifications.sql"})
 public class UserNotificationsIT {
 
@@ -159,7 +158,7 @@ public class UserNotificationsIT {
         // Ensure that the delete occurred.
         allNotifications = repository.findAll();
         assertEquals(((Collection<?>)allNotifications).size(), 5);
-        assertNull(repository.findOne(10L));
+        assertFalse(repository.findById(10L).isPresent());
     }
 
 }

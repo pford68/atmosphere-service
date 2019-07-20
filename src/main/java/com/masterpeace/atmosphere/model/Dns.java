@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Dns {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(columnDefinition = "tinyint default 0")
     private boolean exposed = false;

@@ -7,7 +7,8 @@ import com.masterpeace.atmosphere.model.Dns;
 import com.masterpeace.atmosphere.model.Instance;
 import com.masterpeace.atmosphere.model.IpAddress;
 import com.masterpeace.atmosphere.model.Volume;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ public class InstanceService {
     private final VolumeService volumeService;
 
 
-    private static final Logger LOGGER = Logger.getLogger(InstanceService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InstanceService.class);
 
 
 
@@ -81,7 +82,7 @@ public class InstanceService {
      * @return              the instance with the specified ID
      */
     public Instance getById(long instanceId){
-        return this.repository.findOne(instanceId);
+        return this.repository.findById(instanceId).get();
     }
 
 
@@ -102,7 +103,7 @@ public class InstanceService {
                     .addIp(ip).build();
             _instances.add(_instance);
         }
-        this.repository.save(_instances);
+        this.repository.saveAll(_instances);   // Changed with Spring Boot 2.x
         return _instances;  //Return the saved instances
     }
 
@@ -124,8 +125,8 @@ public class InstanceService {
      */
     @Transactional
     public Instance updateState(long instanceId, int stateId){
-        Instance _instance = new InstanceBuilder(this.repository.findOne(instanceId))
-                .setState(this.stateRepository.findOne(stateId))
+        Instance _instance = new InstanceBuilder(this.repository.findById(instanceId).get())
+                .setState(this.stateRepository.findById(stateId).get())
                 .build();
         return this.repository.save(_instance);
     }
@@ -139,7 +140,7 @@ public class InstanceService {
     @Transactional
     public Instance updateState(Instance instance, int stateId){
         Instance _instance = new InstanceBuilder(instance)
-                .setState(this.stateRepository.findOne(stateId))
+                .setState(this.stateRepository.findById(stateId).get())
                 .build();
         return this.repository.save(_instance);
     }

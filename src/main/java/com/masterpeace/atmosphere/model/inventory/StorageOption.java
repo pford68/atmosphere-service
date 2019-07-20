@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class StorageOption {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String type;
     private String device;

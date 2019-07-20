@@ -5,11 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,10 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Integration test for InstanceService
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
-@IntegrationTest({"server.port=0"})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+@ActiveProfiles("test")
+@AutoConfigureMockMvc
 @Sql({"classpath:fixtures/reset.sql"})
 public class InstanceServiceIT {
 
@@ -104,7 +106,7 @@ public class InstanceServiceIT {
                 .andExpect(jsonPath("$.volumes[0].name", is("My Worst Volume")))
                 .andExpect(jsonPath("$.volumes[0].instance.id", is(10)))
                 .andExpect(jsonPath("$.volumes[0].instance.name", is("myGreatInstance")))
-                .andExpect(jsonPath("$.volumes[0].instance.volumes", isEmptyOrNullString()));
+                .andExpect(jsonPath("$.volumes[0].instance.volumes").doesNotExist());
     }
 
 

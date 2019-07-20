@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Implemented by classes that access the Notifications data store.
  */
-public interface NotificationRepository extends CrudRepository<Notification, Long>{
+public interface NotificationRepository extends CrudRepository<Notification, Long> {
     List<Notification> findByUserIdAndOpened(long userId, boolean opened);
     List<Notification> findByUserId(long userId);
 }

@@ -40,7 +40,7 @@ public class ImageService {
 
     @Transactional
     public Iterable<Image> save(List<Image> images){
-        Iterable<Image> result = this.repository.save(images);
+        Iterable<Image> result = this.repository.saveAll(images);
 
         for (Image image : result){
             entityManager.refresh(image);
@@ -51,16 +51,17 @@ public class ImageService {
 
     @Transactional
     public Image updateState(long imageId, int stateId){
-        Image image = this.repository.findOne(imageId);
+        Image image = this.repository.findById(imageId).get();
         Image _image = new ImageBuilder(image)
-                .setState(this.stateRepository.findOne(stateId))
+                .setState(this.stateRepository.getOne(stateId))
                 .build();
         return this.repository.save(_image);
     }
 
     @Transactional
     public long removeImage(long id){
-        this.repository.delete(id);
+        Image image = this.repository.findById(id).get();
+        this.repository.delete(image);
         return id;
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class InstanceOption {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne
     private ImageType image;
