@@ -70,7 +70,7 @@ public class VolumeService {
 
 
     public Volume getById(long volumeId) {
-        return this.repository.getOne(volumeId);
+        return this.repository.findById(volumeId).get();
     }
 
 
@@ -83,7 +83,7 @@ public class VolumeService {
 
     @Transactional
     public Iterable<Volume> save(List<Volume> volumes) {
-        Iterable<Volume> result = this.repository.saveAll(volumes);
+        Iterable<Volume> result = this.repository.saveAll(volumes);   // Changed with Spring Boot 2.x
 
         for (Volume volume : result){
             entityManager.refresh(volume);
@@ -96,7 +96,7 @@ public class VolumeService {
     @Transactional
     public Volume updateState(Volume volume, int stateId) {
         Volume _volume = new VolumeBuilder(volume)
-                .setState(this.stateRepository.getOne(stateId))
+                .setState(this.stateRepository.findById(stateId).get())
                 .build();
         return this.repository.save(_volume);
     }
@@ -105,9 +105,9 @@ public class VolumeService {
     @Transactional
     public Volume attach(Volume volume, long instanceId){
         long volumeId = volume.getId();
-        Instance instance = this.instanceRepository.getOne(instanceId);
-        State state = this.stateRepository.getOne(Volume.ATTACHED_STATE);
-        Volume _volume = new VolumeBuilder(this.repository.getOne(volumeId))
+        Instance instance = this.instanceRepository.findById(instanceId).get();
+        State state = this.stateRepository.findById(Volume.ATTACHED_STATE).get();
+        Volume _volume = new VolumeBuilder(this.repository.findById(volumeId).get())
                 .setInstance(instance)
                 .setState(state)
                 .build();
@@ -116,8 +116,8 @@ public class VolumeService {
 
     @Transactional
     public Volume detach(long volumeId){
-        State state = this.stateRepository.getOne(Volume.DETACHED_STATE);
-        Volume _volume = new VolumeBuilder(this.repository.getOne(volumeId))
+        State state = this.stateRepository.findById(Volume.DETACHED_STATE).get();
+        Volume _volume = new VolumeBuilder(this.repository.findById(volumeId).get())
                 .setInstance(null)
                 .setState(state)
                 .build();

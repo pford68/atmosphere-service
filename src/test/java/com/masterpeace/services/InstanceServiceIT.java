@@ -106,7 +106,7 @@ public class InstanceServiceIT {
                 .andExpect(jsonPath("$.volumes[0].name", is("My Worst Volume")))
                 .andExpect(jsonPath("$.volumes[0].instance.id", is(10)))
                 .andExpect(jsonPath("$.volumes[0].instance.name", is("myGreatInstance")))
-                .andExpect(jsonPath("$.volumes[0].instance.volumes", isEmptyOrNullString()));
+                .andExpect(jsonPath("$.volumes[0].instance.volumes").doesNotExist());
     }
 
 

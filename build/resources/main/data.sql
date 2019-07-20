@@ -57,9 +57,9 @@ insert into security_group(id, value, user_group_id, permissions) values(3, "adm
 
 
 -- Users
-insert into user(id, first, last, email, password) values(1, "Philip", "Ford", "pford@gmail.com", "password1");
-insert into user(id, first, last, email, password) values(2, "Drew", "Cohen", "dcohen@gmail.com", "password1");
-insert into user(id, first, last, email, password) values(3, "John", "Smith", "jsmith@gmail.com", "password1");
+insert into user(id, first, last, email, password) values(1, "Philip", "Ford", "pford@gmail.com", "{noop}password1");
+insert into user(id, first, last, email, password) values(2, "Drew", "Cohen", "dcohen@gmail.com", "{noop}password1");
+insert into user(id, first, last, email, password) values(3, "John", "Smith", "jsmith@gmail.com", "{noop}password1");
 
 
 -- User Security Groups

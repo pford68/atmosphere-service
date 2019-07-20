@@ -16,7 +16,7 @@ import java.util.SortedSet;
 public class UserGroup implements Comparable<UserGroup>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     @ManyToMany(fetch = FetchType.EAGER)

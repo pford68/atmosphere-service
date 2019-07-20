@@ -2,6 +2,7 @@ package com.masterpeace.atmosphere.configuration;
 
 import com.masterpeace.atmosphere.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,8 +14,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Configuration
@@ -24,9 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 
     private static final String LOGIN_PATH = "/users/login";
 
-    private PasswordEncoder encoder;
-
     @Autowired
+    @Qualifier("atmosphereUserDetailsService")
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -41,11 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
     @Autowired
     private RestLogoutHandler logoutHandler;
 
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
-        //authenticationProvider.setPasswordEncoder(passwordEncoder());  // This is preventing valid users from logging in.
+        authenticationProvider.setPasswordEncoder(passwordEncoder());  // This is preventing valid users from logging in.
         return authenticationProvider;
     }
 
@@ -77,18 +85,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.userDetailsService(userDetailsService);
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.authenticationProvider(authenticationProvider());
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        if(encoder == null) {
-            encoder = new BCryptPasswordEncoder();
-        }
+        // set up the list of supported encoders and their prefixes
+        PasswordEncoder defaultEncoder = new StandardPasswordEncoder();
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        encoders.put("bcrypt", new BCryptPasswordEncoder());
+        encoders.put("scrypt", new SCryptPasswordEncoder());
+        encoders.put("noop", NoOpPasswordEncoder.getInstance());
 
-        return encoder;
+        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", encoders);
+        passwordEncoder.setDefaultPasswordEncoderForMatches(defaultEncoder);
+
+        return passwordEncoder;
     }
 
 

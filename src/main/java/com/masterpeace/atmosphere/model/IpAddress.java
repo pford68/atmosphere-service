@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class IpAddress {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String value;
     @Column(columnDefinition = "tinyint default 0")

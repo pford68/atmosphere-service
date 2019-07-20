@@ -51,7 +51,7 @@ public class ImageService {
 
     @Transactional
     public Image updateState(long imageId, int stateId){
-        Image image = this.repository.getOne(imageId);
+        Image image = this.repository.findById(imageId).get();
         Image _image = new ImageBuilder(image)
                 .setState(this.stateRepository.getOne(stateId))
                 .build();
@@ -60,7 +60,7 @@ public class ImageService {
 
     @Transactional
     public long removeImage(long id){
-        Image image = this.repository.getOne(id);
+        Image image = this.repository.findById(id).get();
         this.repository.delete(image);
         return id;
     }

@@ -12,7 +12,7 @@ public class SecurityGroup implements Comparable<SecurityGroup>{
     public static final String DELETE_PERMISSION = "DELETE";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String value;
     @Column(columnDefinition = "VARCHAR(255) default 'SELECT,INSERT,UPDATE'")

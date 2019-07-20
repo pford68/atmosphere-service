@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the Volumes service
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Sql({"classpath:fixtures/reset.sql"})
@@ -166,7 +166,7 @@ public class VolumeServiceIT {
                 .andExpect(jsonPath("$.id", is(4)))
                 .andExpect(jsonPath("$.state.id", is(0)))
                 .andExpect(jsonPath("$.state.value", is("off")))
-                .andExpect(jsonPath("$.instance", isEmptyOrNullString()));
+                .andExpect(jsonPath("$.instance").doesNotExist());
     }
 
 

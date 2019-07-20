@@ -20,7 +20,7 @@ public class Volume implements Protectable {
     public static final int SUSPENDED_STATE = -1;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     @OneToOne

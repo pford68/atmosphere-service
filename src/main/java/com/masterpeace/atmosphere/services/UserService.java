@@ -44,7 +44,7 @@ public class UserService {
      * @throws Exception
      */
     public User getUserById(long userId) throws Exception {
-        return this.userRepository.getOne(userId);
+        return this.userRepository.findById(userId).get();
     }
 
 
@@ -68,7 +68,7 @@ public class UserService {
      * @throws Exception
      */
     public Iterable<UserGroup> getGroupsByUserId(long userId) throws Exception {
-        User user = this.userRepository.getOne(userId);
+        User user = this.userRepository.findById(userId).get();
         return user.getUserGroups();
     }
 
@@ -80,7 +80,7 @@ public class UserService {
      * @throws Exception
      */
     public Iterable<User> getUsersByGroupId(long groupId) throws Exception {
-        UserGroup group = this.userGroupRepository.getOne(groupId);
+        UserGroup group = this.userGroupRepository.findById(groupId).get();
         return group.getUsers();
     }
 
@@ -149,7 +149,7 @@ public class UserService {
 
 
     public Notification getNotificationById(long noteId) throws Exception {
-        return this.notificationRepository.getOne(noteId);
+        return this.notificationRepository.findById(noteId).get();
     }
 
 
@@ -166,7 +166,7 @@ public class UserService {
 
     @Transactional
     public Long deleteMessage(long noteId) throws Exception {
-        Notification note = this.notificationRepository.getOne(noteId);
+        Notification note = this.notificationRepository.findById(noteId).get();
         this.notificationRepository.delete(note);
         return noteId;
     }

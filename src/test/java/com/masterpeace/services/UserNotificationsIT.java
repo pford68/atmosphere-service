@@ -158,7 +158,7 @@ public class UserNotificationsIT {
         // Ensure that the delete occurred.
         allNotifications = repository.findAll();
         assertEquals(((Collection<?>)allNotifications).size(), 5);
-        assertNull(repository.getOne(10L));
+        assertFalse(repository.findById(10L).isPresent());
     }
 
 }

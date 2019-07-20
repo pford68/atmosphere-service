@@ -33,7 +33,7 @@ public class TestSecurityConfig implements AtmosphereSecurityConfig{
 
     @Bean
     public TestingAuthenticationToken testingAuthenticationToken(){
-        User user = new User("pford@gmail.com","", AuthorityUtils.createAuthorityList("ROLE_USER"));
+        User user = new User("pford@gmail.com","$2a$11$YV5dHm73za5mVQhoBy5S3.RK6XC.Wn5mAIiHuvwm1ESKk/q.hzvby", AuthorityUtils.createAuthorityList("ROLE_USER"));
         TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
         SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
         return testingAuthenticationToken;

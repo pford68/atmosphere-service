@@ -33,7 +33,7 @@ public class AtmosphereUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = null;
+        User user;
         try {
             user = this.userLookupService.getUserByUserName(s);
             if (user == null){
