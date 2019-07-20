@@ -32,21 +32,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 
     private static final String LOGIN_PATH = "/users/login";
 
-    @Autowired
-    @Qualifier("atmosphereUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private RestAuthenticationEntryEndpoint authenticationEntryEndpoint;
+    private final RestAuthenticationEntryEndpoint authenticationEntryEndpoint;
 
-    @Autowired
-    private RestSuccessHandler successHandler;
+    private final RestSuccessHandler successHandler;
 
-    @Autowired
-    private RestFailureHandler failureHandler;
+    private final RestFailureHandler failureHandler;
 
-    @Autowired
-    private RestLogoutHandler logoutHandler;
+    private final RestLogoutHandler logoutHandler;
+
+    public WebSecurityConfig(@Qualifier("atmosphereUserDetailsService") UserDetailsService userDetailsService,
+                             RestAuthenticationEntryEndpoint authenticationEntryEndpoint,
+                             RestSuccessHandler successHandler,
+                             RestFailureHandler failureHandler,
+                             RestLogoutHandler logoutHandler) {
+        this.userDetailsService = userDetailsService;
+        this.authenticationEntryEndpoint = authenticationEntryEndpoint;
+        this.successHandler = successHandler;
+        this.failureHandler = failureHandler;
+        this.logoutHandler = logoutHandler;
+    }
 
 
     @Bean
