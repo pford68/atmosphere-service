@@ -2,8 +2,4 @@
 **/*.iml
 **/*.iws
 .idea
-<<<<<<< HEAD
 build
-=======
-build
->>>>>>> atm-svc-1
