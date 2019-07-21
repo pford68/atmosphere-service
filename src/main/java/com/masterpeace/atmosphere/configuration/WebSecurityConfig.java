@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 
     private final RestLogoutHandler logoutHandler;
 
+    @Autowired
     public WebSecurityConfig(@Qualifier("atmosphereUserDetailsService") UserDetailsService userDetailsService,
                              RestAuthenticationEntryEndpoint authenticationEntryEndpoint,
                              RestSuccessHandler successHandler,

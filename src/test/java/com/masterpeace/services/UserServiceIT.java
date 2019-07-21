@@ -19,7 +19,6 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -67,11 +66,11 @@ public class UserServiceIT {
     }
 
 
-    //@Test
+    @Test
     public void getUserByUserName() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/users?username=pford@gmail.com").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.limits", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.limits").doesNotExist())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.first", is("Philip")))
                 .andExpect(jsonPath("$.last", is("Ford")))
@@ -85,11 +84,11 @@ public class UserServiceIT {
                 .andExpect(jsonPath("$.securityGroups[2].userGroup.name", is("atmosphere-dev")))
                         //.andExpect(jsonPath("$.keyPair.value", is("AngelEyes-Oregon")))   // Not using keyPairs yet.
                 .andExpect(jsonPath("$.email", is("pford@gmail.com")))
-                .andExpect(jsonPath("$.password", isEmptyOrNullString()));
+                .andExpect(jsonPath("$.password").doesNotExist());
     }
 
 
-    //@Test
+    @Test
     public void getGroupsByUser() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/users/1/groups").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -107,7 +106,7 @@ public class UserServiceIT {
     }
 
 
-    //@Test
+    @Test
     public void getUserLimits() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/users/1/limits").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -115,29 +114,29 @@ public class UserServiceIT {
                 .andExpect(jsonPath("$.limits[0].size", is(20)))
                 .andExpect(jsonPath("$.limits[0].type.id", is(1)))
                 .andExpect(jsonPath("$.limits[0].type.name", is("On-Demand Services")))
-                .andExpect(jsonPath("$.limits[0].user", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.limits[0].user").doesNotExist())
                 .andExpect(jsonPath("$.limits[1].size", is(20)))
                 .andExpect(jsonPath("$.limits[1].type.id", is(2)))
                 .andExpect(jsonPath("$.limits[1].type.name", is("SSD volume storage (TiB)")))
-                .andExpect(jsonPath("$.limits[1].user", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.limits[1].user").doesNotExist())
                 .andExpect(jsonPath("$.limits[2].size", is(20)))
                 .andExpect(jsonPath("$.limits[2].type.id", is(3)))
                 .andExpect(jsonPath("$.limits[2].type.name", is("Magnetic volume storgae (TiB)")))
-                .andExpect(jsonPath("$.limits[2].user", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.limits[2].user").doesNotExist())
                 .andExpect(jsonPath("$.limits[3].size", is(50)))
                 .andExpect(jsonPath("$.limits[3].type.id", is(4)))
                 .andExpect(jsonPath("$.limits[3].type.name", is("Rules per security group")))
-                .andExpect(jsonPath("$.limits[3].user", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.limits[3].user").doesNotExist())
                 .andExpect(jsonPath("$.limits[4].size", is(20)))
                 .andExpect(jsonPath("$.limits[4].type.id", is(5)))
                 .andExpect(jsonPath("$.limits[4].type.name", is("Auto Scaling Groups")))
-                .andExpect(jsonPath("$.limits[4].user", isEmptyOrNullString()))
+                .andExpect(jsonPath("$.limits[4].user").doesNotExist())
                 .andExpect(jsonPath("$.userId", is(1)));
     }
 
 
 
-    //@Test
+    @Test
     public void getUserOverview() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/users/1/overview")
                 .accept(MediaType.APPLICATION_JSON))

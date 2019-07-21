@@ -40,25 +40,30 @@ public class ProtectedStatusAspect{
     private String msgDeleteCompleted;
 
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
 
-    @Autowired
-    private VolumeService volumeService;
+    private final VolumeService volumeService;
 
 
-    @Autowired
-    private InstanceService instanceService;
+    private final InstanceService instanceService;
 
 
-    @Autowired
-    private AtmosphereSecurityConfig webSecurityConfig;
+    private final AtmosphereSecurityConfig webSecurityConfig;
 
+
+    private final AuditEventRepository auditEventRepository;
 
     @Autowired
-    private AuditEventRepository auditEventRepository;
-
+    public ProtectedStatusAspect(UserService userService, VolumeService volumeService,
+                                 InstanceService instanceService, AtmosphereSecurityConfig webSecurityConfig,
+                                 AuditEventRepository auditEventRepository) {
+        this.userService = userService;
+        this.volumeService = volumeService;
+        this.instanceService = instanceService;
+        this.webSecurityConfig = webSecurityConfig;
+        this.auditEventRepository = auditEventRepository;
+    }
 
 
     private boolean userInitiatedDelete(User user, Protectable protectable){

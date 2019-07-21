@@ -12,12 +12,12 @@ import javax.persistence.*;
 // Note that the aliases (and corresponding Overview property naems cannot be camel case, because the JPA queries expect
 // to match those properties with column names that have underscores between syllables.
 @Subselect("select user.id as userid," +
-        "(select count(instance.id) from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group left join instance on instance.user_group = user_group.id where user.id = userid) as instances, " +
-        "(select count(volume.id) from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group left join volume on volume.user_group = user_group.id where user.id = userid) as volumes, " +
-        "(select count(user_security_groups.user) from user left join user_security_groups on user_security_groups.user = user.id where user.id = userid) as securitygroups, " +
-        "(select count(load_balancer.id) from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group left join load_balancer on load_balancer.user_group = user_group.id where user.id = userid) as loadbalancers, " +
+        "(select count(instance.id) from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group left join instance on instance.user_group_id = user_group.id where user.id = userid) as instances, " +
+        "(select count(volume.id) from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group left join volume on volume.user_group_id = user_group.id where user.id = userid) as volumes, " +
+        "(select count(user_security_groups.user_id) from user left join user_security_groups on user_security_groups.user_id = user.id where user.id = userid) as securitygroups, " +
+        "(select count(load_balancer.id) from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group left join load_balancer on load_balancer.user_group_id = user_group.id where user.id = userid) as loadbalancers, " +
         "(select count(user_group_users.users) from user_group_users where user_group_users.users = userid group by user_group_users.users) as usergroups," +
-        "(select count(snapshot.id) from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group left join volume on volume.user_group = user_group.id left join snapshot on volume.snapshot = snapshot.id where user.id = userid) as snapshots " +
+        "(select count(snapshot.id) from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group left join volume on volume.user_group_id = user_group.id left join snapshot on volume.snapshot_id = snapshot.id where user.id = userid) as snapshots " +
         "from user left join user_group_users on user_group_users.users = user.id left join user_group on user_group.id = user_group_users.user_group group by user.id")
 @Synchronize({"user", "user_group", "instance", "volume", "security_group", "load_balancer", "snapshot"})
 public class Overview {
