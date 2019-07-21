@@ -90,11 +90,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
         http.authorizeRequests().anyRequest().authenticated();
     }
 
-
+    /*
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.authenticationProvider(authenticationProvider());
-    }
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {
